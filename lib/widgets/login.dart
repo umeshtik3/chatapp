@@ -1,7 +1,7 @@
-import 'package:chatapp/controllers/signup_controller.dart';
 import 'package:chatapp/utilities/app_constants.dart';
 import 'package:chatapp/utilities/size_config.dart';
 import 'package:chatapp/utilities/style.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,7 +17,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     final _signInController = Get.put(SignInController());
-    
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
@@ -39,12 +39,37 @@ class Login extends StatelessWidget {
                         fontSize: SizeConfig.blockSizeHorizontal! * 12,
                         color: Style.draculaBlack,
                         fontWeight: FontWeight.w400)),
-                Text(
-                  'Rebecca',
-                  style: TextStyle(
-                      fontSize: SizeConfig.blockSizeHorizontal! * 11,
-                      color: Style.draculaBlack,
-                      fontWeight: FontWeight.w700),
+                FutureBuilder<User?>(
+                  future: _signInController.currentUser(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text(
+                        'Something is Not Right',
+                        style: TextStyle(
+                            fontSize: SizeConfig.blockSizeHorizontal! * 11,
+                            color: Style.draculaBlack,
+                            fontWeight: FontWeight.w700),
+                      );
+                    } else if (snapshot.data == null) {
+                      return Text(
+                        'user',
+                        style: TextStyle(
+                            fontSize: SizeConfig.blockSizeHorizontal! * 11,
+                            color: Style.draculaBlack,
+                            fontWeight: FontWeight.w700),
+                      );
+                    } else {
+                      return Text(
+                        snapshot.data!.displayName!.toString(),
+                        style: TextStyle(
+                            fontSize: SizeConfig.blockSizeHorizontal! * 11,
+                            color: Style.draculaBlack,
+                            fontWeight: FontWeight.w700),
+                      );
+                    }
+                  },
                 ),
               ],
             ),
@@ -65,8 +90,7 @@ class Login extends StatelessWidget {
                     fontWeight: FontWeight.bold)),
           ),
           // bottomBarButton(context, _authController),
-          BottomBarButtonWidget(
-            signInController: _signInController,
+          const BottomBarButtonWidget(
             isLoginScreen: true,
           )
         ],

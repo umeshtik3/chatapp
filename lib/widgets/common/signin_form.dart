@@ -49,7 +49,7 @@ class SignInForm extends StatelessWidget {
                   padding:
                       EdgeInsets.only(top: SizeConfig.blockSizeHorizontal! * 3),
                   child:
-                      SocialMediaLogoAuth(signInController: signInController),
+                      SocialMediaLogoAuth(signInController: signInController,isLoginScreen: true,),
                 ),
               ],
             )));

@@ -6,15 +6,16 @@ import '../../controllers/signup_controller.dart';
 import '../../utilities/app_constants.dart';
 
 class SocialMediaLogoAuth extends StatelessWidget {
-  const SocialMediaLogoAuth({
-    Key? key,
-    this.signUpController,
-    this.signInController,
-  }) : super(key: key);
+  const SocialMediaLogoAuth(
+      {Key? key,
+      this.signUpController,
+      this.signInController,
+      this.isLoginScreen})
+      : super(key: key);
 
   final SignUpController? signUpController;
   final SignInController? signInController;
-
+  final bool? isLoginScreen;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -26,7 +27,9 @@ class SocialMediaLogoAuth extends StatelessWidget {
         ),
         IconButton(
           onPressed: () {
-            signUpController!.googleLogin();
+            isLoginScreen!
+                ? signInController!.googleLogin()
+                : signUpController!.googleLogin();
           },
           icon: const Icon(FontAwesomeIcons.googlePlusG),
           iconSize: 30,

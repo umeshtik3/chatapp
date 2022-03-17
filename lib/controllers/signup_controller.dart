@@ -1,5 +1,7 @@
 import 'package:chatapp/utilities/validations.dart';
+import 'package:chatapp/widgets/common/signup_form.dart';
 import 'package:chatapp/widgets/homepage.dart';
+import 'package:chatapp/widgets/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -9,17 +11,18 @@ class SignUpController extends GetxController {
   static SignUpController to = Get.find();
   late TextEditingController emailController;
   late TextEditingController passwordController;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   GoogleSignInAccount? _user;
   var isLoginSelected = false.obs;
   GoogleSignInAccount? get user => _user;
-  final GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
 
   @override
   void onInit() {
     emailController = TextEditingController();
     passwordController = TextEditingController();
+
     super.onInit();
   }
 
@@ -39,24 +42,31 @@ class SignUpController extends GetxController {
     final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
-    UserCredential result = await _auth.signInWithCredential(credential);
+    await auth.signInWithCredential(credential);
+    Get.to(() => HomePage(
+          user: auth.currentUser,
+        ));
   }
 
   void signUpWithGoogle() {
     if (emailController.text != '' && passwordController.text != '') {
-      _auth.createUserWithEmailAndPassword(
+      auth.createUserWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
 
-      Get.to(() => const HomePage());
+      Get.to(() => HomePage(
+            user: auth.currentUser,
+          ));
     }
   }
 
   void signInWithGoogle() {
     if (emailController.text != '' && passwordController.text != '') {
-      _auth.signInWithEmailAndPassword(
+      auth.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
 
-      Get.to(() => const HomePage());
+      Get.to(() => HomePage(
+            user: auth.currentUser,
+          ));
     }
   }
 
@@ -85,5 +95,11 @@ class SignUpController extends GetxController {
       // ignore: avoid_print
       print('hello');
     }
+  }
+
+  void logout() {
+    _googleSignIn.signOut();
+    FirebaseAuth.instance.signOut();
+    Get.to(() => const Login());
   }
 }

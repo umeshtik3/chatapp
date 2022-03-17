@@ -1,5 +1,6 @@
 import 'package:chatapp/widgets/common/social_media_logo_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../controllers/signup_controller.dart';
 import '../../utilities/size_config.dart';
@@ -7,14 +8,12 @@ import '../../utilities/size_config.dart';
 class SignUpForm extends StatelessWidget {
   const SignUpForm({
     Key? key,
-    required this.signUpController,
   }) : super(key: key);
-
-  final SignUpController signUpController;
-
 
   @override
   Widget build(BuildContext context) {
+    final SignUpController signUpController = Get.put(SignUpController());
+
     SizeConfig().init(context);
 
     return Padding(
@@ -44,17 +43,18 @@ class SignUpForm extends StatelessWidget {
                     onSaved: (value) =>
                         signUpController.passwordController.text = value!,
                     decoration: const InputDecoration(label: Text('Password'))),
-               TextFormField(
-                        obscureText: true,
-                        validator: (value) =>
-                            signUpController.passwordAgainChecker(value!),
-                        decoration: const InputDecoration(
-                            label: Text('Password Again'))),
+                TextFormField(
+                    obscureText: true,
+                    validator: (value) =>
+                        signUpController.passwordAgainChecker(value!),
+                    decoration:
+                        const InputDecoration(label: Text('Password Again'))),
                 Padding(
                   padding:
                       EdgeInsets.only(top: SizeConfig.blockSizeHorizontal! * 3),
-                  child:
-                      SocialMediaLogoAuth(signUpController: signUpController),
+                  child: SocialMediaLogoAuth(
+                      signUpController: signUpController, isLoginScreen: false
+                      ),
                 ),
               ],
             )));

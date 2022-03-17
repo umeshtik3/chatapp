@@ -1,6 +1,7 @@
 import 'package:chatapp/utilities/size_config.dart';
 import 'package:chatapp/utilities/style.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../controllers/signin_controller.dart';
 import '../../controllers/signup_controller.dart';
@@ -8,16 +9,16 @@ import '../../controllers/signup_controller.dart';
 class BottomBarButtonWidget extends StatelessWidget {
   const BottomBarButtonWidget({
     Key? key,
-    this.signInController,
-    this.signUpController,
     this.isLoginScreen,
   }) : super(key: key);
 
-  final SignInController? signInController;
-  final SignUpController? signUpController;
+
   final bool? isLoginScreen;
   @override
   Widget build(BuildContext context) {
+    final SignUpController signUpController = Get.put(SignUpController());
+    final SignInController signInController = Get.put(SignInController());
+
     SizeConfig().init(context);
     return SizedBox(
       width: SizeConfig.screenWidth!,
@@ -42,8 +43,8 @@ class BottomBarButtonWidget extends StatelessWidget {
                 // ignore: avoid_print
                 print('Bottom Bar button is pressed');
                 isLoginScreen!
-                    ? signInController?.isSignInFormValidate()
-                    : signUpController?.isSignUpFormValidate();
+                    ? signInController.isSignInFormValidate()
+                    : signUpController.isSignUpFormValidate();
               },
               child: Container(
                 width: SizeConfig.blockSizeHorizontal! * 18,
