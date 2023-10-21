@@ -1,5 +1,4 @@
 import 'package:chatapp/utilities/validations.dart';
-import 'package:chatapp/widgets/common/signup_form.dart';
 import 'package:chatapp/widgets/homepage.dart';
 import 'package:chatapp/widgets/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';

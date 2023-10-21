@@ -1,8 +1,6 @@
-import 'package:chatapp/controllers/signup_controller.dart';
 import 'package:chatapp/utilities/app_constants.dart';
 import 'package:chatapp/widgets/common/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../utilities/size_config.dart';
 import 'common/signup_form.dart';

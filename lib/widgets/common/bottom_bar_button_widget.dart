@@ -25,7 +25,7 @@ class BottomBarButtonWidget extends StatelessWidget {
       height: SizeConfig.blockSizeVertical! * 6,
       child: Stack(
         fit: StackFit.expand,
-        overflow: Overflow.visible,
+       
         children: [
           Positioned(
             child: SafeArea(

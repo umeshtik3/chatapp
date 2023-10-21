@@ -58,5 +58,6 @@ class SignUpForm extends StatelessWidget {
                 ),
               ],
             )));
+ 
   }
 }
